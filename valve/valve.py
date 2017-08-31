@@ -1,3 +1,8 @@
+"""
+valve.valve
+
+"""
+
 class Toggle(object):
     def __init__(self, on=False):
         '''
@@ -104,8 +109,8 @@ class Valve(Toggle):
         True
         >>> v.closed
         False
-
         '''
+
         if self.closed:
             self.toggle()
         # should an error be raised if already open?
