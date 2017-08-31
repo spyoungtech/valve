@@ -1,15 +1,45 @@
 class Toggle(object):
     def __init__(self, on=False):
+        '''
+        :param on: whether or not the toggle is on. Default is False.
+        :type on: bool
+        '''
         self._on = bool(on)
 
     def __bool__(self):
         return self.on
 
     def toggle(self):
+        '''
+        Toggles the state of the switch and returns the new state of the switch.
+        I.E. if the switch is off, this will turn it on, vice versa
+
+        :returns: the new state of the switch
+        :rtype: bool
+        >>> t = Toggle(on=False)
+        >>> t.on
+        False
+        >>> t.toggle()
+        True
+        >>> t.on
+        True
+        >>> t.off
+        False
+
+        '''
         self.on = not self.on
+        return self.on
 
     @property
     def on(self):
+        '''
+        Checks the current state of the toggle.
+        When set, it will change the on/off state.
+        Returns True if the current state (`self._on`) is on else False
+        :return: True if the current state (`self._on`) is on else False
+        :rtype: bool
+
+        '''
         return self._on
 
     @on.setter
@@ -22,17 +52,60 @@ class Toggle(object):
 
 
 class Valve(Toggle):
+    '''
+    Provides 'Valve control' functionality to Toggle.
+    Allows for valves to be considered 'normally open' or 'normally closed'
+    IE when a valve is 'off' (passive) and 'normally open', it is open.
+    when a valve is 'on' (active) and 'normally open', it is closed.
+    '''
     def __init__(self, normally_open=False, *args, **kwargs):
+        '''
+        Defaultly off and normally closed.
+        :param normally_open: default is False, IE normally closed
+        :type normally_open: bool
+        :param args:
+        :param kwargs:
+        '''
         self._normally_open = bool(normally_open)
         super().__init__(*args, **kwargs)
 
     def close(self):
-        if self.is_open:
+        '''
+        Closes the valve
+        If the valve is not already closed, `self.toggle` is called.
+
+        :returns: None
+
+        >>> v = Valve(on=True) # on, normally closed
+        >>> v.closed
+        False
+        >>> v.close()
+        >>> v.closed
+        True
+
+        '''
+        if not self.closed:
             self.toggle()
         # should an error be raised if already closed?
         # maybe a `slient` flag?
 
     def open(self):
+        '''
+        Opens the valve
+        If the valve is not already open, `self.toggle` is called
+
+        :returns: None
+
+        >>> v = Valve(on=False) #off, normally closed
+        >>> v.closed
+        True
+        >>> v.open()
+        >>> v.is_open
+        True
+        >>> v.closed
+        False
+
+        '''
         if self.closed:
             self.toggle()
         # should an error be raised if already open?
@@ -69,8 +142,3 @@ class Valve(Toggle):
     @normally_closed.setter
     def normally_closed(self, new_closed_value):
         self._normally_open = not bool(new_closed_value)
-
-
-v = Valve() #off, normally closed
-
-print(v.closed == True)
