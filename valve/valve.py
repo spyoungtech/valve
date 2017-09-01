@@ -39,11 +39,14 @@ class Toggle(object):
     def on(self):
         '''
         Checks the current state of the toggle.
-        When set, it will change the on/off state.
+        When set, it will change the on/off by coarsing a boolean from the provided argument.
         Returns True if the current state (`self._on`) is on else False
         :return: True if the current state (`self._on`) is on else False
         :rtype: bool
 
+        >>> t = Toggle(on=True)
+        >>> t.on
+        True
         '''
         return self._on
 
@@ -73,6 +76,9 @@ class Valve(Toggle):
         '''
         self._normally_open = bool(normally_open)
         super().__init__(*args, **kwargs)
+
+    def __bool__(self):
+        return self.is_open
 
     def close(self):
         '''
