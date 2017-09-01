@@ -3,19 +3,20 @@ valve.valve
 
 """
 
+
 class Toggle(object):
     def __init__(self, on=False):
-        '''
+        """
         :param on: whether or not the toggle is on. Default is False.
         :type on: bool
-        '''
+        """
         self._on = bool(on)
 
     def __bool__(self):
         return self.on
 
     def toggle(self):
-        '''
+        """
         Toggles the state of the switch and returns the new state of the switch.
         I.E. if the switch is off, this will turn it on, vice versa
 
@@ -31,13 +32,13 @@ class Toggle(object):
         >>> t.off
         False
 
-        '''
+        """
         self.on = not self.on
         return self.on
 
     @property
     def on(self):
-        '''
+        """
         Checks the current state of the toggle.
         When set, it will change the on/off by coarsing a boolean from the provided argument.
         Returns True if the current state (`self._on`) is on else False
@@ -47,7 +48,7 @@ class Toggle(object):
         >>> t = Toggle(on=True)
         >>> t.on
         True
-        '''
+        """
         return self._on
 
     @on.setter
@@ -60,20 +61,20 @@ class Toggle(object):
 
 
 class Valve(Toggle):
-    '''
+    """
     Provides 'Valve control' functionality to Toggle.
     Allows for valves to be considered 'normally open' or 'normally closed'
     IE when a valve is 'off' (passive) and 'normally open', it is open.
     when a valve is 'on' (active) and 'normally open', it is closed.
-    '''
+    """
     def __init__(self, normally_open=False, *args, **kwargs):
-        '''
+        """
         Defaultly off and normally closed.
         :param normally_open: default is False, IE normally closed
         :type normally_open: bool
         :param args:
         :param kwargs:
-        '''
+        """
         self._normally_open = bool(normally_open)
         super().__init__(*args, **kwargs)
 
@@ -81,7 +82,7 @@ class Valve(Toggle):
         return self.is_open
 
     def close(self):
-        '''
+        """
         Closes the valve
         If the valve is not already closed, `self.toggle` is called.
 
@@ -97,12 +98,12 @@ class Valve(Toggle):
         >>> v.closed #shouldn't change since it's already closed
         True
 
-        '''
+        """
         if not self.closed:
             self.toggle()
 
     def open(self):
-        '''
+        """
         Opens the valve
         If the valve is not already open, `self.toggle` is called
 
@@ -119,7 +120,7 @@ class Valve(Toggle):
         >>> v.open()
         >>> v.closed #shouldn't change since it's already open
         False
-        '''
+        """
 
         if self.closed:
             self.toggle()
