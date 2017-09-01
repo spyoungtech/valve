@@ -93,12 +93,13 @@ class Valve(Toggle):
         >>> v.close()
         >>> v.closed
         True
+        >>> v.close()
+        >>> v.closed #shouldn't change since it's already closed
+        True
 
         '''
         if not self.closed:
             self.toggle()
-        # should an error be raised if already closed?
-        # maybe a `slient` flag?
 
     def open(self):
         '''
@@ -115,12 +116,13 @@ class Valve(Toggle):
         True
         >>> v.closed
         False
+        >>> v.open()
+        >>> v.closed #shouldn't change since it's already open
+        False
         '''
 
         if self.closed:
             self.toggle()
-        # should an error be raised if already open?
-        # maybe a `silent` flag?
 
     @property
     def is_open(self):
